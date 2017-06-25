@@ -1,0 +1,21 @@
+/* 引用 java plugin 獲得編譯 java 專案相關的 task $ */
+apply plugin: 'java'
+
+///* 引用 application plugin 獲得執行 java 專案相關的 task $ */
+apply plugin:'application'
+//
+///* 執行 application plugin 用到的參數 $ */
+mainClassName = "CalculatorTest"
+
+/* 設定 maven repository server $ */
+repositories {
+    mavenCentral()
+}
+
+/* 宣告專案的相依函式庫 $ */
+dependencies {
+    compile 'junit:junit:4.12'
+    compile 'org.springframework:spring-context:4.3.9.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version: '4.3.9.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.9.RELEASE'
+}
