@@ -1,9 +1,23 @@
+//loadConfiguration()
+//def loadConfiguration() {
+//    def environment = hasProperty('env') ? env : 'dev'
+//    setProperty 'environment', environment
+//    def port = hasProperty('port') ? port : 8080
+//    setProperty 'port', port
+//}
+
+
 /* 引用 java plugin 獲得編譯 java 專案相關的 task $ */
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'com.bmuschko.tomcat'
 
-///* 引用 application plugin 獲得執行 java 專案相關的 task $ */
-apply plugin:'application'
-//
+/* 引用 application plugin 獲得執行 java 專案相關的 task $ */
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 ///* 執行 application plugin 用到的參數 $ */
 mainClassName = "CalculatorTest"
 
@@ -12,10 +26,33 @@ repositories {
     mavenCentral()
 }
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.2.5'
+    }
+}
+
+tomcat {
+    httpPort = 8080
+}
+
 /* 宣告專案的相依函式庫 $ */
 dependencies {
-    compile 'junit:junit:4.12'
+
+    def tomcatVersion = '8.0.42'
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
+            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
     compile 'org.springframework:spring-context:4.3.9.RELEASE'
-    compile group: 'org.springframework', name: 'spring-web', version: '4.3.9.RELEASE'
-    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.9.RELEASE'
+    compile 'org.springframework:spring-web:4.3.9.RELEASE'
+    compile 'org.springframework:spring-webmvc:4.3.9.RELEASE'
+    testCompile 'junit:junit:4.12'
 }
+
+tomcatRun.URIEncoding = 'UTF-8'
+tomcatRun.contextPath = '/todoList'
