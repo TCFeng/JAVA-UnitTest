@@ -9,5 +9,16 @@
 
 
     <mvc:annotation-driven/>
+
+    <bean id="jsonMessageConvert" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jsonMessageConvert" />
+            </list>
+        </property>
+    </bean>
+
     <context:component-scan base-package="feng.todoList.controller"/>
 </beans>

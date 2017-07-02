@@ -1,19 +1,25 @@
 package feng.todoList.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/test")
+@RequestMapping(value = "/todoList")
 public class testController {
 
-    @RequestMapping(path = "/hello", method = RequestMethod.GET)
-    public String showHelloWorld(){
+    @RequestMapping(path = "/getList", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> showHelloWorld(){
 
-        return "OK";
+        Map testMap = new HashMap();
+        testMap.put("dataA", "OK");
+
+        return testMap;
     }
 }

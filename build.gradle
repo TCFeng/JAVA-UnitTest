@@ -38,6 +38,7 @@ buildscript {
 
 tomcat {
     httpPort = 8080
+    contextPath = 'feng'
 }
 
 /* 宣告專案的相依函式庫 $ */
@@ -51,8 +52,8 @@ dependencies {
     compile 'org.springframework:spring-context:4.3.9.RELEASE'
     compile 'org.springframework:spring-web:4.3.9.RELEASE'
     compile 'org.springframework:spring-webmvc:4.3.9.RELEASE'
+
+    runtime 'com.fasterxml.jackson.core:jackson-core:2.8.9'
+    runtime 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
     testCompile 'junit:junit:4.12'
 }
-
-tomcatRun.URIEncoding = 'UTF-8'
-tomcatRun.contextPath = '/todoList'
