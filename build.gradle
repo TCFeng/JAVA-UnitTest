@@ -49,11 +49,19 @@ dependencies {
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 
+    compile 'org.postgresql:postgresql:42.1.1'
     compile 'org.springframework:spring-context:4.3.9.RELEASE'
     compile 'org.springframework:spring-web:4.3.9.RELEASE'
     compile 'org.springframework:spring-webmvc:4.3.9.RELEASE'
+    compile 'org.springframework:spring-orm:4.3.9.RELEASE'
+    compile 'org.springframework:spring-tx:4.3.9.RELEASE'
+
+    //hibernate
+    compile 'org.hibernate:hibernate-core:5.2.10.Final'
+
 
     runtime 'com.fasterxml.jackson.core:jackson-core:2.8.9'
     runtime 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
     testCompile 'junit:junit:4.12'
 }
+
