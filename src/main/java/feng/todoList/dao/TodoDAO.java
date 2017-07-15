@@ -10,4 +10,10 @@ import java.util.List;
 public interface TodoDAO {
 
     public List<TodoItem> getAllTodos();
+
+    public void addTodoItem(TodoItem todoItem);
+
+    public TodoItem updateTodoItem(TodoItem todoItem);
+
+    public void deleteTodoItem(Integer todoItemId);
 }

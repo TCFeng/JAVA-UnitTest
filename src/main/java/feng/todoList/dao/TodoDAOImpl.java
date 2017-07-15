@@ -16,8 +16,29 @@ public class TodoDAOImpl implements TodoDAO{
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Override
     public List<TodoItem> getAllTodos(){
         return sessionFactory.getCurrentSession().createQuery("from TodoItem")
                 .list();
+    }
+
+    @Override
+    public void addTodoItem(TodoItem todoItem) {
+        sessionFactory.getCurrentSession().saveOrUpdate(todoItem);
+    }
+
+    @Override
+    public TodoItem updateTodoItem(TodoItem todoItem) {
+        sessionFactory.getCurrentSession().update(todoItem);
+        return todoItem;
+    }
+
+    @Override
+    public void deleteTodoItem(Integer todoItemId) {
+        TodoItem todoItem = (TodoItem) sessionFactory.getCurrentSession().load(
+                TodoItem.class, todoItemId);
+        if (null != todoItem) {
+            this.sessionFactory.getCurrentSession().delete(todoItem);
+        }
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Service("todoService")
 @Transactional
-public class TodoServiceImpl implements TodoService{
+public class TodoServiceImpl implements TodoService {
 
     @Autowired
     private TodoDAO todoDAO;
@@ -22,5 +22,23 @@ public class TodoServiceImpl implements TodoService{
     @Transactional
     public List<TodoItem> getTodosList() {
         return todoDAO.getAllTodos();
+    }
+
+    @Override
+    @Transactional
+    public void addTodoItem(TodoItem todoItem) {
+        todoDAO.addTodoItem(todoItem);
+    }
+
+    @Override
+    @Transactional
+    public TodoItem updateTodoItem(TodoItem todoItem) {
+        return todoDAO.updateTodoItem(todoItem);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTodoItem(int todoItemId) {
+        todoDAO.deleteTodoItem(todoItemId);
     }
 }

@@ -19,8 +19,8 @@ public class TodoItem implements Serializable {
     private static final long serialVersionUID = -3465813074586302847L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
 
     @Column
     private String item;
@@ -34,9 +34,9 @@ public class TodoItem implements Serializable {
     @Column
     private Boolean done;
 
-    public Long getId() {return Id;}
+    public int getId() {return Id;}
 
-    public void setId(Long id) {
+    public void setId(int id) {
         Id = id;
     }
 

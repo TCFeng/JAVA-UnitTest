@@ -10,4 +10,10 @@ import java.util.List;
 public interface TodoService {
 
     List<TodoItem> getTodosList();
+
+    public void addTodoItem(TodoItem todoItem);
+
+    public TodoItem updateTodoItem(TodoItem todoItem);
+
+    public void deleteTodoItem(int todoItemId);
 }

@@ -1,12 +1,11 @@
 package feng.todoList.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feng.todoList.model.TodoItem;
 import feng.todoList.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,30 +32,30 @@ public class TodoController {
         return testMap;
     }
 
+    // , produces="application/json"
     @RequestMapping(path = "/addItem", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addItem() {
+    public Map<String, Object> addItem(@RequestBody TodoItem todoItem) {
 
+        todoService.addTodoItem(todoItem);
         Map testMap = new HashMap();
         testMap.put("AddItem", "OK!!");
-
         return testMap;
     }
 
     @RequestMapping(path = "/updateItem", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> updateItem() {
+    public TodoItem updateItem(@RequestBody TodoItem todoItem) {
 
-        Map testMap = new HashMap();
-        testMap.put("UpdateItem", "OK!!");
-
-        return testMap;
+        TodoItem result = todoService.updateTodoItem(todoItem);
+        return result;
     }
 
     @RequestMapping(path = "/deleteItem", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> deleteItem() {
+    public Map<String, Object> deleteItem(@RequestBody TodoItem todoItem) {
 
+        todoService.deleteTodoItem(todoItem.getId());
         Map testMap = new HashMap();
         testMap.put("DeleteItem", "OK!!");
 

@@ -10,20 +10,23 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
+    <!-- JSON JAVA Object convert-->
+
     <mvc:annotation-driven/>
 
-    <bean id="jsonMessageConvert" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
-
-    <!-- Getting Database properties -->
-    <context:property-placeholder location="classpath:hibernate.properties" />
+    <bean id="jsonMessageConvert" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+    </bean>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
-                <ref bean="jsonMessageConvert"/>
+                <ref bean="jsonMessageConvert" />
             </list>
         </property>
     </bean>
+
+    <!-- Getting Database properties -->
+    <context:property-placeholder location="classpath:hibernate.properties"/>
 
     <context:component-scan base-package="feng.todoList.*"/>
 
@@ -53,8 +56,8 @@
     <!-- Transaction -->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
