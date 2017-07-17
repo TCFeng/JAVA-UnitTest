@@ -1,6 +1,5 @@
 package feng.todoList.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feng.todoList.model.TodoItem;
 import feng.todoList.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
+
     @RequestMapping(path = "/getList", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getList(){
@@ -37,9 +37,14 @@ public class TodoController {
     @ResponseBody
     public Map<String, Object> addItem(@RequestBody TodoItem todoItem) {
 
-        todoService.addTodoItem(todoItem);
         Map testMap = new HashMap();
-        testMap.put("AddItem", "OK!!");
+        if(todoItem.getItem() == null || todoItem.getItem().equals("")){
+            testMap.put("AddItem", "Data Empty");
+        }else{
+            todoService.addTodoItem(todoItem);
+            testMap.put("AddItem", "OK!!");
+        }
+
         return testMap;
     }
 
