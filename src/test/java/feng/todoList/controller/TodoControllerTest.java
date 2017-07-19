@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feng.todoList.AbstractIntegrationTest;
 import feng.todoList.model.TodoItem;
 import feng.todoList.service.TodoService;
+import feng.todoList.util.RandomUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -15,10 +16,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,13 +52,15 @@ public class TodoControllerTest extends AbstractIntegrationTest {
     @Test
     public void getListTest() throws Exception {
 
-        Mockito.when(todoService.getTodosList()).thenReturn(this.createTodoItems());
+        ObjectMapper objectMapper = jsonMessageConvert.getObjectMapper();
+        List<TodoItem> todoItems = this.createTodoItems();
+        Mockito.when(todoService.getTodosList()).thenReturn(todoItems);
 
         ResultActions result = this.mockMvc.perform(post("/todoList/getList"))
                 .andExpect(status().isOk());
 
         String content = result.andReturn().getResponse().getContentAsString();
-        assertEquals("{\"QueryData\":[{\"item\":\"Show me the money\",\"owner\":null,\"dueDate\":\"19870601000000\",\"done\":true,\"id\":100}]}", content);
+        assertEquals(objectMapper.writeValueAsString(this.createListReturnMap(todoItems)), content);
     }
 
     @Test
@@ -99,23 +103,30 @@ public class TodoControllerTest extends AbstractIntegrationTest {
 
         List<TodoItem> resultList = new ArrayList<TodoItem>();
         TodoItem todoItem = new TodoItem();
-        todoItem.setId(100);
-        todoItem.setItem("Show me the money");
-        todoItem.setDueDate("19870601000000");
-        todoItem.setDone(true);
+        todoItem.setId(RandomUtil.randomPositiveInt(5));
+        todoItem.setItem(RandomUtil.randomString());
+        todoItem.setOwner(RandomUtil.randomString());
+        todoItem.setDueDate(RandomUtil.randDateTime());
+        todoItem.setDone(RandomUtil.randomBoolean());
 
         resultList.add(todoItem);
         return resultList;
 
     }
 
+    private Map<String, List<TodoItem>> createListReturnMap(List<TodoItem> resultList){
+        Map<String, List<TodoItem>> resultMap = new HashMap<String, List<TodoItem>>();
+        resultMap.put("QueryData", resultList);
+        return resultMap;
+    }
+
     private TodoItem createTodoItem() {
 
         TodoItem todoItem = new TodoItem();
-        todoItem.setItem("Show me the money");
-        todoItem.setOwner("TCFeng");
-        todoItem.setDueDate("19870601000000");
-        todoItem.setDone(true);
+        todoItem.setItem(RandomUtil.randomString());
+        todoItem.setOwner(RandomUtil.randomString());
+        todoItem.setDueDate(RandomUtil.randDateTime());
+        todoItem.setDone(RandomUtil.randomBoolean());
 
         return todoItem;
     }
@@ -123,9 +134,9 @@ public class TodoControllerTest extends AbstractIntegrationTest {
     private TodoItem createEmptyTodoItem() {
 
         TodoItem todoItem = new TodoItem();
-        todoItem.setOwner("TCFeng");
-        todoItem.setDueDate("19870601000000");
-        todoItem.setDone(true);
+        todoItem.setOwner(RandomUtil.randomString());
+        todoItem.setDueDate(RandomUtil.randDateTime());
+        todoItem.setDone(RandomUtil.randomBoolean());
 
         return todoItem;
     }

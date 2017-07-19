@@ -38,7 +38,7 @@ public class TodoController {
     public Map<String, Object> addItem(@RequestBody TodoItem todoItem) {
 
         Map testMap = new HashMap();
-        if(todoItem.getItem() == null || todoItem.getItem().equals("")){
+        if(todoItem.getItem() == null){
             testMap.put("AddItem", "Data Empty");
         }else{
             todoService.addTodoItem(todoItem);

@@ -11,6 +11,7 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'com.bmuschko.tomcat'
+apply plugin: 'jacoco'
 
 /* 引用 application plugin 獲得執行 java 專案相關的 task $ */
 apply plugin: 'application'
@@ -24,6 +25,11 @@ mainClassName = "CalculatorTest"
 /* 設定 maven repository server $ */
 repositories {
     mavenCentral()
+}
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+    reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
 buildscript {
@@ -73,5 +79,26 @@ dependencies {
 
     //include in compile only, exclude in the war
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+
+
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        csv.enabled = true
+        html.enabled = true
+
+    }
+
 }
 
